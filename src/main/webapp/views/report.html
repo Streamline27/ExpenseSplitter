@@ -1,0 +1,58 @@
+<div class="friends col-md-3">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Friends</div>
+        <div class="panel-body">
+            <p>Total payments made by people.</p>
+        </div>
+
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="summary in report.summaries">
+                {{ summary.person }}
+                <span class="total">{{ summary.amount }}$ total.</span>
+            </li>
+        </ul>
+    </div>
+</div><!-- End friednds -->
+
+
+<div class="expenses col-md-6">
+    <h1 class="event-caption">{{ event.eventName }}</h1>
+    <ul class="nav nav-tabs">
+        <li ng-class="{'active' : expenses}"><a ng-click="showExpenses()">Expenses</a></li>
+        <li ng-class="{'active' : transactions}"><a ng-click="showTransactions()">
+            Transactions
+        </a></li>
+    </ul>
+    <expenses-content ng-if="expenses"></expenses-content>
+    <transactions-content ng-if="transactions" transactions="report.transactions"></transactions-content>
+
+</div>
+
+
+<div class="info col-md-3" id="metrics-panels">
+    <div class="panel panel-default row">
+        <div class="panel-heading">Average</div>
+        <div class="panel-body">
+            <h1>{{ report.average | setDecimal:2 }}$</h1>
+            <p>Combined sum.</p>
+        </div>
+    </div>
+
+    <div class="panel panel-default row">
+        <div class="panel-heading">Total</div>
+        <div class="panel-body">
+            <div>
+                <h1>{{report.total | setDecimal:2}}$</h1>
+                <p>Money spent during event.</p>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div><!-- End metrics panels -->
+
+
+
+

@@ -1,0 +1,40 @@
+<div class="tabular-content panel panel-default">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr >
+                    <th class="text-center">
+                        #
+                    </th>
+                    <th class="text-center">
+                        From
+                    </th>
+                    <th class="text-center">
+                        To
+                    </th>
+                    <th class="text-center">
+                        Amount
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="transaction in transactions">
+                    <td>
+                        {{ $index + 1 }}
+                    </td>
+                    <td>
+                        {{ transaction.debtor }}
+                    </td>
+                    <td>
+                        {{ transaction.creditor }}
+                    </td>
+                    <td>
+                        {{ transaction.amount | number:2}}$
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div><!-- End col-md-12 -->
+    </div><!-- End Row -->
+</div>

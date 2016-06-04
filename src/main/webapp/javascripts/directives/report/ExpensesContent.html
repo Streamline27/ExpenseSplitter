@@ -1,0 +1,77 @@
+<div ng-if="expenses" class="tabular-content panel panel-default">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <form ng-submit="addExpense()">
+                <table class="table table-bordered table-hover" id="tab_logic">
+                    <thead>
+                    <tr >
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            Person
+                        </th>
+                        <th class="text-center">
+                            Service
+                        </th>
+                        <th class="text-center">
+                            Amount
+                        </th>
+                        <th class="text-center" >
+                            Action
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="expense in report.expenses">
+                        <td>
+                            {{ $index + 1 }}
+                        </td>
+                        <td>
+                            {{ expense.name }}
+                        </td>
+                        <td>
+                            {{ expense.service }}
+                        </td>
+                        <td>
+                            {{ expense.amount }}$
+                        </td>
+                        <td>
+                            <button type="button" ng-click="$parent.deleteExpense(expense)"
+                                    class="btn btn-danger">
+                                        Remove
+                            </button>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td> # </td>
+                            <td>
+                                <input type="text" ng-model="expenseNew.name" required
+                                       class="form-control"
+                                       placeholder="Enter person">
+                            </td>
+                            <td>
+                                <input type="text" ng-model="expenseNew.service" required
+                                       class="form-control"
+                                       placeholder="Enter service">
+                            </td>
+                            <td>
+                                <input type="text" ng-model="expenseNew.amount" required
+                                       class="form-control"
+                                       placeholder="Enter amount">
+                            </td>
+                            <td>
+                                <button type="submit"
+                                        class="btn btn-primary pull-right">Add expense</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+        </div><!-- End col-md-12 -->
+    </div><!-- End row -->
+</div>

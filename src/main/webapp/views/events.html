@@ -1,0 +1,35 @@
+<div class="expenses col-md-6 col-md-offset-3">
+    <!--<ul class="nav nav-tabs">-->
+        <!--<li role="presentation" class="active"><a href="#">Login</a></li>-->
+        <!--<li role="presentation"><a href="#">Register</a></li>-->
+    <!--</ul>-->
+    <h1 class="event-caption" ng-if="!haveEvents">You currently have no events</h1>
+    <h1 class="event-caption" ng-if="haveEvents">Your events</h1>
+    <div class="content">
+
+        <div class="row">
+            <event-thumbnail event="event" ng-repeat="event in events" on-remove="instances.splice($index,1)"></event-thumbnail>
+
+        </div><!-- End row -->
+
+    </div>
+</div>
+
+<div class="info col-md-3" >
+    <div class="panel panel-default row event-form-panel">
+        <div class="panel-heading">Add event</div>
+        <div class="panel-body">
+            <form ng-submit="addEvent()">
+                <fieldset class="form-group">
+                    <label>Event name</label>
+                    <input type="text" ng-model="eventNew.eventName" required
+                           class="form-control"
+                           placeholder="Event name">
+
+                    <small class="text-muted">Add event, split and track your expenses!</small>
+                </fieldset>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+
+<h1 class="event-caption">Sign In and Go</h1>
+
+<div class="authorization col-md-4 col-md-offset-4">
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-class="{'active' : showLogin}" >   <a ng-click="showLoginForm()">Login</a></li>
+        <li role="presentation" ng-class="{'active' : showRegister}"> <a ng-click="showRegisterForm()">Sign Up</a></li>
+    </ul>
+
+    <div class="content-login panel panel-default" ng-if="showLogin">
+
+        <form ng-submit="login()">
+            <div ng-if="showInfo"  class="alert alert-info"   role="alert">{{ infoMsg }}</div>
+            <div ng-if="showError" class="alert alert-danger" role="alert">{{ errorMsg }}</div>
+            <fieldset class="form-group">
+                <label>Username</label>
+                <input type="text" ng-model="user.username" required
+                       class="form-control"
+                       placeholder="Enter username">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Password</label>
+                <input type="password" ng-model="user.password" required
+                       class="form-control"
+                       placeholder="Enter password">
+            </fieldset>
+            <fieldset class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </fieldset>
+        </form>
+    </div><!-- Login content -->
+    <div class="content-register panel panel-default" ng-if="showRegister">
+        <form ng-submit="register()">
+            <div ng-if="showError" class="alert alert-danger" role="alert">{{ errorMsg }}</div>
+            <fieldset class="form-group">
+                <label>FirstName</label>
+                <input type="text" ng-model="user.firstName" required
+                       class="form-control"
+                       placeholder="Enter firstname">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>LastName</label>
+                <input type="text" ng-model="user.lastName" required
+                       class="form-control"
+                       placeholder="Enter lastname">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Username</label>
+                <input type="text" ng-model="user.username" required
+                       class="form-control"
+                       placeholder="Enter username">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Password</label>
+                <input type="password" ng-model="user.password" required
+                       class="form-control"
+                       placeholder="Enter password">
+            </fieldset>
+            <fieldset class="form-group">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </fieldset>
+        </form>
+    </div>
+</div><!-- Register content -->

@@ -1,0 +1,20 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#/">Expense Splitter</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                <li ng-class="{ active: isActive('/event')}"><a href="#/">Events<span class="sr-only">(current)</span></a></li>
+
+            </ul>
+
+            <ul ng-if="loggedIn" class="nav navbar-nav navbar-right">
+
+                <li><a>{{ user.firstName }} {{ user.lastName}}</a></li>
+                <li><a a href="#/auth" ng-click="logout()">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

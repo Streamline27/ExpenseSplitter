@@ -1,0 +1,74 @@
+@font-face {
+    font-family: "Bitter123";
+    src: url(http://fonts.googleapis.com/css?family=Bitter:400,700);
+}
+
+.body{
+    min-height: 950px;
+}
+
+.friends{
+    margin-top: 75px;
+}
+
+.expenses{
+
+}
+
+.info{
+    margin-top: 75px;
+}
+
+.content{
+    height: 550px;
+    /*background-color: magenta;*/
+    border-top: 0 !important;
+    padding: 15px;
+    /*border-right: 1px solid #ddd;*/
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+.event-caption{
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 25px 0;
+    text-align: center;
+}
+
+.authorization{
+    margin-top: 15px;
+}
+
+.content-login, .content-register{
+    padding: 18px;
+    border-top: 0;
+}
+
+.total{
+    float: right;
+}
+
+
+/* Expenses and Transactions page */
+td{
+    text-align: center;
+}
+
+.tabular-content{
+    border-top: 0 !important;
+    padding: 15px;
+}
+
+/* Event page */
+.event-form-panel{
+    margin-top: 90px;
+}
+
+.event-thumbnail{
+    width: 30%;
+    display: inline-block;
+}
+

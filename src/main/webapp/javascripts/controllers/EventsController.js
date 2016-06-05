@@ -19,6 +19,9 @@ app.controller('EventsController', ['$scope', 'UserModel', 'AuthService', 'Acces
             .success(function(data){
                $scope.events.push(data);
                $scope.eventNew = {};
+
+                if($scope.events.length > 0) $scope.haveEvents = true;
+                else haveEvents = false;
             });
     };
 
@@ -27,7 +30,10 @@ app.controller('EventsController', ['$scope', 'UserModel', 'AuthService', 'Acces
          userModel.getEvents(user.username).success(function(data){
              eventsAreLoading = false;
              $scope.events = data;
+
+
              if($scope.events.length > 0) $scope.haveEvents = true;
+             else haveEvents = false;
         })
 
     }

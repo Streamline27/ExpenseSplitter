@@ -8,6 +8,7 @@ app.controller('EventsController', ['$scope', 'UserModel', 'AuthService', 'Acces
     accessValidator.redirectIfNoAccess(); // This page is secured now!
 
     user = authService.GetUserCredentials();
+    eventsAreLoading = true;
     haveEvents = false;
     showUserEvents(user);
 
@@ -17,15 +18,17 @@ app.controller('EventsController', ['$scope', 'UserModel', 'AuthService', 'Acces
         userModel.addEvent(user, $scope.eventNew)
             .success(function(data){
                $scope.events.push(data);
+               $scope.eventNew = {};
             });
     };
 
 
     function showUserEvents(user){
          userModel.getEvents(user.username).success(function(data){
+             eventsAreLoading = false;
              $scope.events = data;
              if($scope.events.length > 0) $scope.haveEvents = true;
-        });
+        })
 
     }
 

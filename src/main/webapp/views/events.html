@@ -3,8 +3,8 @@
         <!--<li role="presentation" class="active"><a href="#">Login</a></li>-->
         <!--<li role="presentation"><a href="#">Register</a></li>-->
     <!--</ul>-->
-    <h1 class="event-caption" ng-if="!haveEvents">You currently have no events</h1>
-    <h1 class="event-caption" ng-if="haveEvents">Your events</h1>
+    <h1 class="event-caption" ng-if="!haveEvents && !eventsAreLoading">You currently have no events</h1>
+    <h1 class="event-caption" ng-if="haveEvents && !eventsAreLoading">Your events</h1>
     <div class="content">
 
         <div class="row">
@@ -26,7 +26,7 @@
                            class="form-control"
                            placeholder="Event name">
 
-                    <small class="text-muted">Add event, split and track your expenses!</small>
+                    <small class="text-muted">Add event to split and track your expenses.</small>
                 </fieldset>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

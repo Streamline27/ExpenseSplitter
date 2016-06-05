@@ -5,6 +5,8 @@
 app.controller('AuthorizationController', ['$scope', 'AuthService', '$rootScope','UserModel', '$location',
     function($scope, authService, $rootScope, userModel, $location){
 
+    if(authService.IsLoggedIn()) $location.path("/");
+
     $scope.showLoginForm = function(){
         $scope.showLogin = true;
         $scope.showRegister = false;
@@ -30,6 +32,7 @@ app.controller('AuthorizationController', ['$scope', 'AuthService', '$rootScope'
             $location.path('/');
         };
         onError = function(){
+            $scope.user = {};
             showLoginError();
         };
         authService.Login($scope.user.username, $scope.user.password, onSuccess, onError);

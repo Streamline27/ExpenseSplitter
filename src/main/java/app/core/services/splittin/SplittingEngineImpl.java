@@ -4,13 +4,16 @@ import app.core.domain.Expense;
 import app.core.domain.Reckoning;
 import app.core.domain.Transaction;
 import app.core.services.AverageEvaluator;
-import app.core.services.ExpenseToReckoningConverter;
+import app.core.services.Converter;
 import app.core.services.TotalSpendingEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static app.core.services.Converter.FROM_EXPENSE_TO_RECKONING;
+import static app.core.services.Converter.convert;
 
 /**
  * Created by Vladislav on 5/31/2016.
@@ -20,16 +23,17 @@ import java.util.stream.Collectors;
 public class SplittingEngineImpl implements SplittingEngine {
 
     @Autowired private TotalSpendingEvaluator totalSpendingEvaluator;
-    @Autowired private ExpenseToReckoningConverter converter;
     @Autowired private AverageEvaluator averageEvaluator;
 
 
     @Override
     public List<Transaction> getRequiredTransactions(List<Expense> expenses){
-        List<Reckoning> reckonings = totalSpendingEvaluator.getTotals(converter.from(expenses));
-        Double average = averageEvaluator.getAverage(reckonings);
+        List<Reckoning> reckonings = convert(expenses, FROM_EXPENSE_TO_RECKONING);
 
-        return getRequiredTransactions(reckonings, average);
+        List<Reckoning> totalSpendingByPeople = totalSpendingEvaluator.getSpendingByPeople(reckonings);
+        Double average = averageEvaluator.getAverage(totalSpendingByPeople);
+
+        return getRequiredTransactions(totalSpendingByPeople, average);
     }
 
     @Override
@@ -51,9 +55,9 @@ public class SplittingEngineImpl implements SplittingEngine {
         Private helper methods
     */
     private List<Reckoning> getPreparedReckonings(List<Reckoning> summariesByPeople, Double average) {
-        List<Reckoning> reckonings = new ArrayList<>(summariesByPeople);
-        reckonings.stream().forEach(reckoning -> reckoning.extract(average));
-        return reckonings;
+        return summariesByPeople.stream()
+                                .map(r -> new Reckoning(r.getPerson(), r.getAmount() - average))
+                                .collect(Collectors.toList());
     }
 
     private List<Reckoning> getAboweZero(List<Reckoning> reckonings) {

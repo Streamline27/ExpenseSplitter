@@ -8,5 +8,5 @@ import java.util.List;
  * Created by Vladislav on 6/1/2016.
  */
 public interface TotalSpendingEvaluator {
-    List<Reckoning> getTotals(List<Reckoning> reckonings);
+    List<Reckoning> getSpendingByPeople(List<Reckoning> reckonings);
 }

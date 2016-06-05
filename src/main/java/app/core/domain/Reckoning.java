@@ -18,12 +18,10 @@ public class Reckoning {
         this.amount = amount * -1;
     }
 
-    @JsonIgnore
     public boolean isPositive(){
         return amount>0;
     }
 
-    @JsonIgnore
     public boolean isNegative(){
         return amount<0;
     }
@@ -57,6 +55,7 @@ public class Reckoning {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+
 
 
 }

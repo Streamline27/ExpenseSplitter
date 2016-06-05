@@ -1,4 +1,4 @@
-package app.core.security;
+package app.security;
 
 
 import app.core.database.UserDAO;
@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Created by Vladislav on 2/25/2016.
  */
+
 @Service("userDetailsService")
 public class CustomizedUserDetailService implements UserDetailsService {
     @Autowired private UserDAO userDAO;

@@ -16,19 +16,27 @@ import java.util.Map;
 public class TotalSpendingEvaluatorImpl implements TotalSpendingEvaluator {
 
     @Override
-    public List<Reckoning> getTotals(List<Reckoning> reckonings) {
+    public List<Reckoning> getSpendingByPeople(List<Reckoning> reckonings) {
+
         Map<String, Reckoning> groupedExpenses = new HashMap<>();
 
-        // Add entries where accumulation takes place
-        for (Reckoning reckoning: reckonings){
-            groupedExpenses.put(reckoning.getPerson(), new Reckoning(reckoning.getPerson(), 0D));
-        }
-
-        // Accumulate in corresponding entries
-        for (Reckoning reckoning: reckonings){
-            groupedExpenses.get(reckoning.getPerson()).add(reckoning.getAmount());
-        }
+        initializeAccumulatorEntries(reckonings, groupedExpenses);
+        accumulateInCorrespondingEntries(reckonings, groupedExpenses);
 
         return new ArrayList<>(groupedExpenses.values());
     }
+
+
+    private void initializeAccumulatorEntries(List<Reckoning> reckonings, Map<String, Reckoning> groupedExpenses) {
+        for (Reckoning reckoning: reckonings){
+            groupedExpenses.put(reckoning.getPerson(), new Reckoning(reckoning.getPerson(), 0D));
+        }
+    }
+
+    private void accumulateInCorrespondingEntries(List<Reckoning> reckonings, Map<String, Reckoning> groupedExpenses) {
+        for (Reckoning reckoning: reckonings){
+            groupedExpenses.get(reckoning.getPerson()).add(reckoning.getAmount());
+        }
+    }
+
 }

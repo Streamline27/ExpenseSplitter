@@ -1,16 +1,22 @@
 package app.rest;
 
-import app.core.database.EventDAO;
-import app.core.database.UserDAO;
-import app.core.domain.Event;
-import app.core.domain.Expense;
-import app.core.domain.User;
+import app.core.commands.CommandExecutor;
+import app.core.commands.commands.events.create.CreateEventCommand;
+import app.core.commands.commands.events.create.CreateEventResult;
+import app.core.commands.commands.events.delete.DeleteEventCommand;
+import app.core.commands.commands.events.delete.DeleteEventResult;
+import app.core.commands.commands.events.get.GetEventCommand;
+import app.core.commands.commands.events.get.GetEventResult;
+import app.core.commands.commands.events.getall.GetUserEventsCommand;
+import app.core.commands.commands.events.getall.GetUserEventsResult;
+import app.dto.EventDTO;
+import app.security.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,44 +27,76 @@ import java.util.List;
 @RequestMapping("/api/user/{username}/event")
 public class EventController {
 
-    @Autowired private UserDAO userDAO;
-    @Autowired private EventDAO eventDAO;
+    @Autowired private AuthenticationService authenticationService;
+    @Autowired private CommandExecutor executor;
+
+
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Event> post(@PathVariable String username, @RequestBody Event event){
+    public ResponseEntity<EventDTO> post(@PathVariable String username, @RequestBody EventDTO eventDTO){
 
-        User user = userDAO.findOne(username);
-        event.setUser(user);
+        if (!authenticationService.isLoggedIn(username)) return getAccessDeniedResponseEntity();
 
-        event = eventDAO.save(event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+
+        CreateEventCommand command = new CreateEventCommand(eventDTO, username);
+        CreateEventResult result = executor.execute(command);
+
+        eventDTO = result.getEventDTO();
+        return new ResponseEntity<>(eventDTO, HttpStatus.OK);
+
     }
+
+
 
     @RequestMapping(path = "/{eventId}" ,method = RequestMethod.GET)
-    public ResponseEntity<Event> get(@PathVariable Long eventId){
+    public ResponseEntity<EventDTO> get(@PathVariable String username, @PathVariable Long eventId){
 
-        Event event = eventDAO.findOne(eventId);
+        if (!authenticationService.isLoggedIn(username)) return getAccessDeniedResponseEntity();
 
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        GetEventCommand command = new GetEventCommand(eventId);
+        GetEventResult result = executor.execute(command);
+
+        EventDTO eventDTO = result.getEventDTO();
+        return new ResponseEntity<>(eventDTO, HttpStatus.OK);
+
     }
+
+
 
     @RequestMapping(path = "/{eventId}" ,method = RequestMethod.DELETE)
-    public HttpStatus delete(@PathVariable Long eventId){
+    public ResponseEntity<EventDTO> delete(@PathVariable String username, @PathVariable Long eventId){
 
-        eventDAO.delete(eventId);
-        return HttpStatus.OK;
+        if (!authenticationService.isLoggedIn(username)) return getAccessDeniedResponseEntity();
 
+
+        DeleteEventCommand command = new DeleteEventCommand(eventId);
+        DeleteEventResult result = executor.execute(command);
+
+        EventDTO event = result.getEventDTO();
+        return new ResponseEntity<>(event, HttpStatus.OK);
 
     }
 
+    private ResponseEntity<EventDTO> getAccessDeniedResponseEntity() {
+        return new ResponseEntity<>(new EventDTO(), HttpStatus.BAD_REQUEST);
+    }
+
+
+
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Iterable<Event>> getAll(@PathVariable String username){
+    public ResponseEntity<List<EventDTO>> getAll(@PathVariable String username){
 
-        User user = userDAO.findOne(username);
+        if (!authenticationService.isLoggedIn(username))
+            return new ResponseEntity<List<EventDTO>>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
 
-        List<Event> events = user.getEvents();
-        return new ResponseEntity<>(events, HttpStatus.OK);
+
+        GetUserEventsCommand command = new GetUserEventsCommand(username);
+        GetUserEventsResult result = executor.execute(command);
+
+        List<EventDTO> eventDTOs = result.getEvents();
+        return new ResponseEntity<>(eventDTOs, HttpStatus.OK);
+
     }
 
 }

@@ -1,15 +1,15 @@
 package app.rest;
 
-import app.core.database.UserDAO;
-import app.core.domain.Event;
-import app.core.domain.User;
-import app.core.security.UserPrincipal;
+import app.core.commands.CommandExecutor;
+import app.core.commands.commands.registration.results.BadCredentialsException;
+import app.core.commands.commands.registration.RegisterUserCommand;
+import app.core.commands.commands.registration.RegisterUserResult;
+import app.dto.UserDTO;
+import app.dto.UserInfoDTO;
+import app.security.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,38 +20,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired private UserDAO userDAO;
-
-
-    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
-    public ResponseEntity<User> get(@PathVariable String username){
-        User user = userDAO.findOne(username);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+    @Autowired private AuthenticationService authenticationService;
+    @Autowired private CommandExecutor commandExecutor;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public ResponseEntity<User> post(@RequestBody User user){
-        if (!userDAO.exists(user.getUsername())){
-            userDAO.save(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserInfoDTO> registerUser(@RequestBody UserDTO userDTO){
+
+        RegisterUserCommand command = new RegisterUserCommand(userDTO);
+        RegisterUserResult result = commandExecutor.execute(command);
+
+        try {
+            UserInfoDTO userInfoDTO = result.getRegisteredUser();
+            return new ResponseEntity<>(userInfoDTO, HttpStatus.OK);
+
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity<>(new UserInfoDTO(), HttpStatus.BAD_REQUEST);
         }
-        else return new ResponseEntity<>(new User(), HttpStatus.BAD_REQUEST);
 
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public ResponseEntity<User> getCurrentUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        return new ResponseEntity<>(((UserPrincipal)principal).getUser(), HttpStatus.OK);
+    public ResponseEntity<UserInfoDTO> getCurrentUser(){
+        return new ResponseEntity<>(authenticationService.getAuthorizedUser(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity<User> login(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        return new ResponseEntity<>(((UserPrincipal)principal).getUser(), HttpStatus.OK);
+    public ResponseEntity<UserInfoDTO> login(){
+        return new ResponseEntity<>(authenticationService.getAuthorizedUser(), HttpStatus.OK);
     }
 
 

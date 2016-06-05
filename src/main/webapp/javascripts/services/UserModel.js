@@ -38,7 +38,7 @@ app.service('UserModel', ['$http', function($http){
     };
 
     this.deleteExpense = function(user, event, expense){
-        return $http.delete("api/user/" + user.username + "/event/" + event.eventId+"/expense/"+expense.id);
+        return $http.delete("api/user/" + user.username + "/event/" + event.eventId+"/expense/"+expense.expenseId);
     }
 
 

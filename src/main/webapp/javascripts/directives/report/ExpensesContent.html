@@ -3,7 +3,7 @@
         <div class="col-md-12">
 
 
-            <form ng-submit="addExpense()">
+            <form ng-submit="addExpense()" name="expenseForm">
                 <table class="table table-bordered table-hover" id="tab_logic">
                     <thead>
                     <tr >
@@ -51,15 +51,18 @@
                             <td>
                                 <input type="text" ng-model="expenseNew.name" required
                                        class="form-control"
+                                       id="name"
                                        placeholder="Enter person">
                             </td>
                             <td>
                                 <input type="text" ng-model="expenseNew.service" required
+                                       id="service"
                                        class="form-control"
                                        placeholder="Enter service">
                             </td>
                             <td>
                                 <input type="text" ng-model="expenseNew.amount" required
+                                       id="amount"
                                        class="form-control"
                                        placeholder="Enter amount">
                             </td>

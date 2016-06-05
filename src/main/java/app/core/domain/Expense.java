@@ -32,6 +32,8 @@ public class Expense {
         this.amount = amount;
     }
 
+
+
     public String getName() {
         return name;
     }

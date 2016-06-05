@@ -10,27 +10,27 @@ import java.util.List;
  */
 
 @Entity
-public class User {
+public class UserCredentials {
 
     @Id
-    @Column(name = "username")
+    @Column
     private String username;
 
     @Column private String firstName;
     @Column private String lastName;
     @Column private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "userCredentials", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Event> events;
 
-    public User(String firstName, String lastName, String username, String password) {
+    public UserCredentials(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
     }
 
-    public User() {
+    public UserCredentials() {
     }
 
     public String getUsername() {

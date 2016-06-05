@@ -6,7 +6,7 @@ import app.core.commands.commands.registration.results.RegisterUserFailureResult
 import app.core.commands.commands.registration.results.RegisterUserSuccessResult;
 import app.dto.UserDTO;
 import app.core.database.UserDAO;
-import app.core.domain.User;
+import app.core.domain.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +30,10 @@ public class RegisterUserCommandHandler implements DomainCommandHandler<Register
 
         if (userIsAlreadyRegistered(username)){
 
-            User user = convert(userDTO, FROM_USER_DTO);
-            user = userDAO.save(user);
+            UserCredentials userCredentials = convert(userDTO, FROM_USER_DTO);
+            userCredentials = userDAO.save(userCredentials);
 
-            return new RegisterUserSuccessResult(convert(user, TO_USER_INFO_DTO));
+            return new RegisterUserSuccessResult(convert(userCredentials, TO_USER_INFO_DTO));
         }
         else return new RegisterUserFailureResult();
 

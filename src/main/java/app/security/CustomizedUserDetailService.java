@@ -2,7 +2,7 @@ package app.security;
 
 
 import app.core.database.UserDAO;
-import app.core.domain.User;
+import app.core.domain.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,19 +24,19 @@ public class CustomizedUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userDAO.findOne(s);
+        UserCredentials userCredentials = userDAO.findOne(s);
 
         List<GrantedAuthority> authorities = buildUserAuthority();
-        return buildUserForAuthentication(user, authorities);
+        return buildUserForAuthentication(userCredentials, authorities);
     }
 
-    private UserPrincipal buildUserForAuthentication(User user,
+    private UserPrincipal buildUserForAuthentication(UserCredentials userCredentials,
                                                      List<GrantedAuthority> authorities) {
         return new UserPrincipal(
-                user.getUsername(),
-                user.getPassword(),
+                userCredentials.getUsername(),
+                userCredentials.getPassword(),
                 authorities,
-                user
+                userCredentials
         );
     }
 

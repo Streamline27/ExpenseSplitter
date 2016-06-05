@@ -1,7 +1,5 @@
 package app.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="username")
-    private User user;
+    private UserCredentials userCredentials;
 
     public Event() {
     }
@@ -57,11 +55,11 @@ public class Event {
         this.expenses = expenses;
     }
 
-    public User getUser() {
-        return user;
+    public UserCredentials getUserCredentials() {
+        return userCredentials;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserCredentials(UserCredentials userCredentials) {
+        this.userCredentials = userCredentials;
     }
 }

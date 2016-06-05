@@ -5,7 +5,7 @@ import app.dto.EventDTO;
 import app.core.database.EventDAO;
 import app.core.database.UserDAO;
 import app.core.domain.Event;
-import app.core.domain.User;
+import app.core.domain.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +27,10 @@ public class CreateEventCommandHandler implements DomainCommandHandler<CreateEve
         String username   = command.getUsername();
         EventDTO eventDTO = command.getEventDTO();
 
-        User user = userDAO.findOne(username);
+        UserCredentials userCredentials = userDAO.findOne(username);
 
         Event event = new Event(eventDTO.getEventName());
-        event.setUser(user);
+        event.setUserCredentials(userCredentials);
         event = eventDAO.save(event);
 
         return new CreateEventResult(convert(event, TO_EVENT_DTO));

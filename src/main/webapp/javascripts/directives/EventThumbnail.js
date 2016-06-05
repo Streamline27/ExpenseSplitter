@@ -7,7 +7,8 @@ app.directive('eventThumbnail', ['UserModel', 'AuthService', '$route', function(
     return{
         restrict: 'E',
         scope:{
-            event: '='
+            event: '=',
+            index: '='
         },
         templateUrl: 'javascripts/directives/EventThumbnail.html',
         link: function($scope, element, attr){
@@ -17,7 +18,7 @@ app.directive('eventThumbnail', ['UserModel', 'AuthService', '$route', function(
                 userModel.deleteEvent(user, $scope.event)
                     .success(function(){
                         var index = $scope.$parent.events.indexOf($scope.expense);
-                        $scope.$parent.events.splice(index, 1);
+                        $scope.$parent.events.splice($scope.index, 1);
                     });
             }
         }

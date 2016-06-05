@@ -1,6 +1,6 @@
 package app.security;
 
-import app.core.domain.User;
+import app.core.domain.UserCredentials;
 import app.dto.UserInfoDTO;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -15,9 +15,9 @@ public class UserPrincipal extends org.springframework.security.core.userdetails
     public UserPrincipal(String username,
                          String password,
                          Collection<? extends GrantedAuthority> authorities,
-                         User user) {
+                         UserCredentials userCredentials) {
         super(username, password, true, true, true, true, authorities);
-        this.user = new UserInfoDTO(user.getUsername(), user.getFirstName(), user.getLastName());
+        this.user = new UserInfoDTO(userCredentials.getUsername(), userCredentials.getFirstName(), userCredentials.getLastName());
     }
 
 

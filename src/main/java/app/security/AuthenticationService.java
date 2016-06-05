@@ -15,8 +15,8 @@ public class AuthenticationService {
     public boolean isLoggedIn(String username) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        return ((UserPrincipal)principal).getUser().getUsername().equals(username);
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        return principal.getUser().getUsername().equals(username);
 
     }
 

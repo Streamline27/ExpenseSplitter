@@ -8,7 +8,7 @@
     <div class="content">
 
         <div class="row">
-            <event-thumbnail event="event" ng-repeat="event in events" on-remove="instances.splice($index,1)"></event-thumbnail>
+            <event-thumbnail event="event" index="$index" ng-repeat="event in events"></event-thumbnail>
 
         </div><!-- End row -->
 

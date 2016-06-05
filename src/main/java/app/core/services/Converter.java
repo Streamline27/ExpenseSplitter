@@ -43,7 +43,7 @@ public class Converter {
             event -> new EventDTO(event.getEventId(), event.getEventName());
 
 
-    public final static Function<User, UserInfoDTO> TO_USER_INFO_DTO =
+    public final static Function<UserCredentials, UserInfoDTO> TO_USER_INFO_DTO =
             user -> new UserInfoDTO(user.getUsername(), user.getLastName(), user.getPassword());
 
     /* DTO to Domain */
@@ -64,8 +64,8 @@ public class Converter {
             eventDTO -> new Event(eventDTO.getEventName());
 
 
-    public final static Function<UserDTO, User> FROM_USER_DTO =
-            userDTO -> new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getPassword());
+    public final static Function<UserDTO, UserCredentials> FROM_USER_DTO =
+            userDTO -> new UserCredentials(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getPassword());
 
     /* Other */
 

@@ -6,7 +6,6 @@ import app.core.database.ExpenseDAO;
 import app.core.domain.Event;
 import app.core.domain.Expense;
 import app.dto.ExpenseDTO;
-import app.core.services.ExpenseCommittingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ import static app.core.services.Converter.convert;
 @Component
 public class CreateExpenseCommandHandler implements DomainCommandHandler<CreateExpenseCommand, CreateExpenseResult> {
 
-    @Autowired private ExpenseCommittingService expenseCommittingService;
     @Autowired private EventDAO eventDAO;
     @Autowired private ExpenseDAO expenseDAO;
 
@@ -30,10 +28,11 @@ public class CreateExpenseCommandHandler implements DomainCommandHandler<CreateE
         ExpenseDTO expenseDTO = formatFields(command.getExpenseDTO());
         Long eventId          = command.getEventId();
 
-        Event event = eventDAO.findOne(eventId);
         Expense expense = convert(expenseDTO, FROM_EXPENSE_DTO);
 
-        expense = saveEventExpense(expense, event);
+        Event event = eventDAO.findOne(eventId);
+        expense.setEvent(event);
+        expense = expenseDAO.save(expense);
 
         return new CreateExpenseResult(convert(expense, TO_EXPENSE_DTO));
     }
@@ -41,13 +40,6 @@ public class CreateExpenseCommandHandler implements DomainCommandHandler<CreateE
     @Override
     public Class getCommandType() {
         return CreateExpenseCommand.class;
-    }
-
-
-    private Expense saveEventExpense(Expense expense, Event event) {
-        expenseCommittingService.commitExpense(expense, event);
-        expense = expenseDAO.save(expense);
-        return expense;
     }
 
     private ExpenseDTO formatFields(ExpenseDTO expenseDTO) {

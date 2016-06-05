@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 @Component
-public class AverageEvaluatorImpl implements AverageEvaluator{
+public class AverageCalculatorImpl implements AverageCalculator {
 
     @Override
     public double getAverage(List<Reckoning> reckonings) {

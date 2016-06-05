@@ -20,7 +20,6 @@ public class User {
     @Column private String lastName;
     @Column private String password;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Event> events;
 

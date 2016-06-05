@@ -7,6 +7,6 @@ import java.util.List;
 /**
  * Created by Vladislav on 6/1/2016.
  */
-public interface AverageEvaluator {
+public interface AverageCalculator {
     double getAverage(List<Reckoning> reckonings);
 }

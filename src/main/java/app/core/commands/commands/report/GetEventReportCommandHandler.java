@@ -3,8 +3,8 @@ package app.core.commands.commands.report;
 import app.core.commands.DomainCommandHandler;
 import app.core.database.EventDAO;
 import app.core.domain.*;
-import app.core.services.AverageEvaluator;
-import app.core.services.TotalSpendingEvaluator;
+import app.core.services.AverageCalculator;
+import app.core.services.PersonSpendingCalculator;
 import app.core.services.splittin.SplittingEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,8 +21,8 @@ import static app.core.services.Converter.*;
 public class GetEventReportCommandHandler implements DomainCommandHandler<GetEventReportCommand, GetEventReportResult> {
 
     @Autowired private EventDAO eventDAO;
-    @Autowired private TotalSpendingEvaluator totalSpendingEvaluator;
-    @Autowired private AverageEvaluator averageEvaluator;
+    @Autowired private PersonSpendingCalculator personSpendingCalculator;
+    @Autowired private AverageCalculator averageCalculator;
     @Autowired private SplittingEngine splittingEngine;
 
 
@@ -35,9 +35,9 @@ public class GetEventReportCommandHandler implements DomainCommandHandler<GetEve
         /* Compute required values */
         List<Expense> expenses                = event.getExpenses();
         List<Reckoning> reckonings            = convert(expenses, FROM_EXPENSE_TO_RECKONING);
-        List<Reckoning> totalSpendingByPeople = totalSpendingEvaluator.getSpendingByPeople(reckonings);
+        List<Reckoning> totalSpendingByPeople = personSpendingCalculator.getPersonalSpending(reckonings);
 
-        Double average = averageEvaluator.getAverage(totalSpendingByPeople);
+        Double average = averageCalculator.getAverage(totalSpendingByPeople);
         Double total   = getOverallSum(totalSpendingByPeople);
 
         /* Run splitting algorithm */

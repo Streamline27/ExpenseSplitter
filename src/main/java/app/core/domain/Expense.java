@@ -18,7 +18,6 @@ public class Expense {
     @Column private String service;
     @Column private Double amount;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="eventId")
     private Event event;

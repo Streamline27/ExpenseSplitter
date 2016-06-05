@@ -20,7 +20,6 @@ public class Event {
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Expense> expenses;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="username")
     private User user;

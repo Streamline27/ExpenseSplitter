@@ -3,9 +3,8 @@ package app.core.services.splittin;
 import app.core.domain.Expense;
 import app.core.domain.Reckoning;
 import app.core.domain.Transaction;
-import app.core.services.AverageEvaluator;
-import app.core.services.Converter;
-import app.core.services.TotalSpendingEvaluator;
+import app.core.services.AverageCalculator;
+import app.core.services.PersonSpendingCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,16 +21,16 @@ import static app.core.services.Converter.convert;
 @Component
 public class SplittingEngineImpl implements SplittingEngine {
 
-    @Autowired private TotalSpendingEvaluator totalSpendingEvaluator;
-    @Autowired private AverageEvaluator averageEvaluator;
+    @Autowired private PersonSpendingCalculator personSpendingCalculator;
+    @Autowired private AverageCalculator averageCalculator;
 
 
     @Override
     public List<Transaction> getRequiredTransactions(List<Expense> expenses){
         List<Reckoning> reckonings = convert(expenses, FROM_EXPENSE_TO_RECKONING);
 
-        List<Reckoning> totalSpendingByPeople = totalSpendingEvaluator.getSpendingByPeople(reckonings);
-        Double average = averageEvaluator.getAverage(totalSpendingByPeople);
+        List<Reckoning> totalSpendingByPeople = personSpendingCalculator.getPersonalSpending(reckonings);
+        Double average = averageCalculator.getAverage(totalSpendingByPeople);
 
         return getRequiredTransactions(totalSpendingByPeople, average);
     }

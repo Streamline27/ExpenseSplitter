@@ -13,10 +13,10 @@ import java.util.Map;
  */
 
 @Component
-public class TotalSpendingEvaluatorImpl implements TotalSpendingEvaluator {
+public class PersonSpendingCalculatorImpl implements PersonSpendingCalculator {
 
     @Override
-    public List<Reckoning> getSpendingByPeople(List<Reckoning> reckonings) {
+    public List<Reckoning> getPersonalSpending(List<Reckoning> reckonings) {
 
         Map<String, Reckoning> groupedExpenses = new HashMap<>();
 

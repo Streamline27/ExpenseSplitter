@@ -37,10 +37,12 @@ public class CreateExpenseCommandHandler implements DomainCommandHandler<CreateE
         return new CreateExpenseResult(convert(expense, TO_EXPENSE_DTO));
     }
 
+
     @Override
     public Class getCommandType() {
         return CreateExpenseCommand.class;
     }
+
 
     private ExpenseDTO formatFields(ExpenseDTO expenseDTO) {
         return new ExpenseDTO(expenseDTO.getName().trim(), expenseDTO.getService(), expenseDTO.getAmount());

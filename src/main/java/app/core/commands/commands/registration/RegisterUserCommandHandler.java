@@ -28,7 +28,7 @@ public class RegisterUserCommandHandler implements DomainCommandHandler<Register
         UserDTO userDTO = command.getUserDTO();
         String username = userDTO.getUsername();
 
-        if (userIsAlreadyRegistered(username)){
+        if (isNotAlreadyRegistered(username)){
 
             UserCredentials userCredentials = convert(userDTO, FROM_USER_DTO);
             userCredentials = userDAO.save(userCredentials);
@@ -40,7 +40,7 @@ public class RegisterUserCommandHandler implements DomainCommandHandler<Register
 
     }
 
-    private boolean userIsAlreadyRegistered(String username) {
+    private boolean isNotAlreadyRegistered(String username) {
         return !userDAO.exists(username);
     }
 
@@ -48,4 +48,5 @@ public class RegisterUserCommandHandler implements DomainCommandHandler<Register
     public Class getCommandType() {
         return RegisterUserCommand.class;
     }
+
 }

@@ -36,8 +36,10 @@ public class CreateEventCommandHandler implements DomainCommandHandler<CreateEve
         return new CreateEventResult(convert(event, TO_EVENT_DTO));
     }
 
+
     @Override
     public Class getCommandType() {
         return CreateEventCommand.class;
     }
+
 }

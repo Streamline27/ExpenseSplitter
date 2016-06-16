@@ -15,14 +15,14 @@ public class AuthenticationService {
     public boolean isLoggedIn(String username) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-        return principal.getUser().getUsername().equals(username);
-
+        Object principal = authentication.getPrincipal();
+        return principal instanceof UserPrincipal && ((UserPrincipal) principal).getUser().getUsername().equals(username);
     }
 
     public UserInfoDTO getAuthorizedUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
-        return ((UserPrincipal)principal).getUser();
+        if (!(principal instanceof UserPrincipal)) return null;
+        else return ((UserPrincipal)principal).getUser();
     }
 }

@@ -31,4 +31,5 @@ public class GetExpenseCommandHandler implements DomainCommandHandler<GetExpense
     public Class getCommandType() {
         return GetExpenseCommand.class;
     }
+
 }

@@ -43,7 +43,7 @@ public class ExpenseController {
         CreateExpenseCommand command = new CreateExpenseCommand(expense, eventId);
         CreateExpenseResult result = executor.execute(command);
 
-        return new ResponseEntity<ExpenseDTO>(result.getExpenseDTO(), HttpStatus.OK);
+        return new ResponseEntity<>(result.getExpenseDTO(), HttpStatus.OK);
 
     }
 

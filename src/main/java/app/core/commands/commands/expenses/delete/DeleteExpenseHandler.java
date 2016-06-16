@@ -32,4 +32,5 @@ public class DeleteExpenseHandler implements DomainCommandHandler<DeleteExpenseC
     public Class getCommandType() {
         return DeleteExpenseCommand.class;
     }
+
 }

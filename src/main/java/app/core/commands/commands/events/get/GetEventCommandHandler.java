@@ -25,8 +25,10 @@ public class GetEventCommandHandler implements DomainCommandHandler<GetEventComm
             return new GetEventResult(convert(event, TO_EVENT_DTO));
     }
 
+
     @Override
     public Class getCommandType() {
         return GetEventCommand.class;
     }
+
 }

@@ -28,8 +28,10 @@ public class DeleteEventCommandHandler implements DomainCommandHandler<DeleteEve
         return new DeleteEventResult(convert(event, TO_EVENT_DTO));
     }
 
+
     @Override
     public Class getCommandType() {
         return DeleteEventCommand.class;
     }
+
 }

@@ -88,7 +88,7 @@ public class EventController {
     public ResponseEntity<List<EventDTO>> getAll(@PathVariable String username){
 
         if (!authenticationService.isLoggedIn(username))
-            return new ResponseEntity<List<EventDTO>>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
 
 
         GetUserEventsCommand command = new GetUserEventsCommand(username);
